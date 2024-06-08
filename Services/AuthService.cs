@@ -25,7 +25,7 @@ namespace UserAuthApi.Services
 
         public async Task<string> Register(User user, string password)
         {
-            if (await UserExists(user.Username))
+            if (await UserExists(user.Email))
                 return "User already exists";
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -39,21 +39,26 @@ namespace UserAuthApi.Services
             return "User registered successfully";
         }
 
-        public async Task<string> Login(string username, string password)
+        public async Task<LoginResponse> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == username);
 
             if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
             var token = CreateToken(user);
-
-            return token;
+            user.Token = token;
+            await _context.SaveChangesAsync();
+            return new LoginResponse
+    {
+        Token = token,
+        User = user
+    };
         }
 
         public async Task<bool> UserExists(string username)
         {
-            return await _context.Users.AnyAsync(u => u.Username == username);
+            return await _context.Users.AnyAsync(u => u.Email == username);
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -83,7 +88,7 @@ namespace UserAuthApi.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
@@ -101,4 +106,9 @@ namespace UserAuthApi.Services
             return tokenHandler.WriteToken(token);
         }
     }
+    public class LoginResponse
+{
+    public string Token { get; set; }
+    public User User { get; set; }
+}
 }

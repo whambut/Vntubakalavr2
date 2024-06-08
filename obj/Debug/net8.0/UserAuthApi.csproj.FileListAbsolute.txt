@@ -136,3 +136,9 @@ C:\Users\asuro\UserAuthApi\obj\Debug\net8.0\refint\UserAuthApi.dll
 C:\Users\asuro\UserAuthApi\obj\Debug\net8.0\UserAuthApi.pdb
 C:\Users\asuro\UserAuthApi\obj\Debug\net8.0\UserAuthApi.genruntimeconfig.cache
 C:\Users\asuro\UserAuthApi\obj\Debug\net8.0\ref\UserAuthApi.dll
+C:\Users\asuro\UserAuthApi\obj\Debug\net8.0\UserAuthApi.sourcelink.json
+C:\Users\asuro\UserAuthApi\bin\Debug\net8.0\publish\web.config
+C:\Users\asuro\UserAuthApi\bin\Debug\net8.0\publish\appsettings.Development.json
+C:\Users\asuro\UserAuthApi\bin\Debug\net8.0\publish\appsettings.json
+C:\Users\asuro\UserAuthApi\bin\Debug\net8.0\publish\UserAuthApi.deps.json
+C:\Users\asuro\UserAuthApi\bin\Debug\net8.0\publish\UserAuthApi.runtimeconfig.json
